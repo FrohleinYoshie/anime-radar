@@ -1,0 +1,33 @@
+services:
+  # ─── Next.js フロントエンド（開発サーバー） ──────────────────
+  frontend:
+    build:
+      context: .
+      target: dev           # 開発ステージを使用
+    container_name: anime-radar-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app              # ホットリロードのためソースをマウント
+      - /app/node_modules   # コンテナ内 node_modules を上書きさせない
+      - /app/.next          # ビルドキャッシュもコンテナ側を使う
+    environment:
+      - NODE_ENV=development
+      # Cloudflare D1 ローカル接続用（wrangler が生成するファイルのパス）
+      - NEXT_PUBLIC_USE_LOCAL_DB=true
+    restart: unless-stopped
+
+  # ─── Cloudflare Workers ローカルシミュレーター ─────────────
+  # workers ディレクトリを作成後に有効化してください
+  # workers:
+  #   image: node:20-alpine
+  #   container_name: anime-radar-workers
+  #   working_dir: /app/workers
+  #   ports:
+  #     - "8787:8787"     # wrangler dev のデフォルトポート
+  #   volumes:
+  #     - ./workers:/app/workers
+  #   command: sh -c "npm ci && npx wrangler dev --local"
+  #   environment:
+  #     - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+  #   restart: unless-stopped
