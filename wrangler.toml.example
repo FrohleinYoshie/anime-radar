@@ -1,0 +1,14 @@
+name = "anime-radar-worker"
+main = "src/worker/index.ts"
+compatibility_date = "2025-01-01"
+
+# Cron トリガー: 毎日 0:00 UTC（日本時間 9:00）に実行
+[triggers]
+crons = ["0 0 * * *"]
+
+# D1 データベース
+# `wrangler d1 create anime-radar-db` の出力から database_id をここに貼る
+[[d1_databases]]
+binding = "DB"
+database_name = "anime-radar-db"
+database_id = "<YOUR_D1_DATABASE_ID>"
