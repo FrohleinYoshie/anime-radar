@@ -48,8 +48,8 @@ function parseItemsFromXml(xml: string): RssItemDto[] {
   ];
 
   return itemMatches.map((match) => {
-    const guid = match[1];    // rdf:about の URL（記事の一意ID）
+    const id = match[1];    // rdf:about の URL（記事の一意ID）
     const itemXml = match[2]; // <item> の中身
-    return createRssItemDto(itemXml, guid);
+    return createRssItemDto(itemXml, id);
   });
 }

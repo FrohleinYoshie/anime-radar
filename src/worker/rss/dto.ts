@@ -1,15 +1,15 @@
 /**
  * PR TIMES RSS（RDF形式）から取得した生データの型
  *
- * - guid    : <item rdf:about="..."> の属性値（一意ID）
- * - pubDate : <dc:date> の値（ISO 8601形式）
+ * - id    : <item rdf:about="..."> の属性値（一意ID）
+ * - publishedAt : <dc:date> の値（ISO 8601形式）
  *
  * アプリ内部の型（AnimeEvent など）への変換は factory.ts で行う
  */
 export interface RssItemDto {
-  guid: string;
+  id: string;
   title: string;
-  link: string;
+  url: string;
   description: string;
-  pubDate: string;
+  publishedAt: string;
 }

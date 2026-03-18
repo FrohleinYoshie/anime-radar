@@ -6,13 +6,13 @@ import type { RssItemDto } from "./dto";
  * @param itemXml  <item> タグの中身
  * @param guid     <item rdf:about="..."> の属性値（一意ID）
  */
-export function createRssItemDto(itemXml: string, guid: string): RssItemDto {
+export function createRssItemDto(itemXml: string, id: string): RssItemDto {
   return {
-    guid,
+    id,
     title: getTagValue(itemXml, "title"),
-    link: getTagValue(itemXml, "link"),
+    url: getTagValue(itemXml, "link"),
     description: getTagValue(itemXml, "description"),
-    pubDate: getTagValue(itemXml, "dc:date"),
+    publishedAt: getTagValue(itemXml, "dc:date"),
   };
 }
 

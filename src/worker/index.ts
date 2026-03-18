@@ -1,6 +1,8 @@
 /// <reference types="@cloudflare/workers-types" />
 import { fetchRssItems } from "./rss";
 import { filterAnimeItems } from "./filter";
+import { analyzeWithAI } from "./ai";
+import { saveEvent } from "./db";
 
 // wrangler.toml の [[d1_databases]] binding に対応する型
 export interface Env {
@@ -8,8 +10,7 @@ export interface Env {
 }
 
 // Cron トリガーで呼ばれるエントリポイント
-export default {
-  async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext) {
+export  default { async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext) {
     console.log("[Worker] Cron 開始");
 
     const allItems = await fetchRssItems();
@@ -18,6 +19,13 @@ export default {
     const animeItems = filterAnimeItems(allItems);
     console.log(`[Worker] フィルタ後: ${animeItems.length} 件`);
 
-    // TODO: ai.ts → db.ts の処理をここに追加
+    for (const items of animeItems) {
+      const analyzeWithAiData  = await analyzeWithAI(items, env)
+      if (analyzeWithAiData) {
+        await saveEvent(items, analyzeWithAiData, env)
+      } else {
+        console.error("AIパースエラー")
+      }
+    }
   },
 };

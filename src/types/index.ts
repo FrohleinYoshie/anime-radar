@@ -4,7 +4,7 @@ export interface AnimeEvent {
     url: string;
     description: string | null;
     thumbnailUrl: string | null;
-    publishedAt: number;
+    publishedAt: string;
     animeTitle: string;
     category: string;
     location: string | null;
