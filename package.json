@@ -13,9 +13,11 @@
   "dependencies": {
     "next": "16.1.7",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250224.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -25,7 +27,6 @@
     "eslint-config-next": "16.1.7",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "@cloudflare/workers-types": "^4.20250224.0",
     "wrangler": "^3"
   }
 }
