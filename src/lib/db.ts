@@ -19,7 +19,7 @@ async function queryD1<T>(sql: string, params: (string | number | null)[]): Prom
     )
 
     const data: { result: [{ results: T[] }] } = await res.json()
-    return data.result[0].results
+    return data.result?.[0].results
 }
 
 export function getRecentEvents(limit: number) {

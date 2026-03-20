@@ -77,7 +77,7 @@ export default function CalendarView({ events }: {events: AnimeEvent[]}){
                 {Array.from({ length: calendarLength()}).map((_, i) => (
                     <div key={i}>
                         <p>{getCalendar(i)}</p>
-                    <p>{events.filter((event) => {if (!event.eventStart) return false; else return new Date(event.eventStart).getFullYear() === currentYear && new Date(event.eventStart).getMonth() === currentMonth && new Date(event.eventStart).getDate() === getCalendar(i) && 1 <= getCalendar(i) && getCalendar(i) <= daysInMonth(currentYear, currentMonth)}).map((event) => event.title)}</p>
+                    <p>{events?.filter((event) => {if (!event.eventStart) return false; else return new Date(event.eventStart).getFullYear() === currentYear && new Date(event.eventStart).getMonth() === currentMonth && new Date(event.eventStart).getDate() === getCalendar(i) && 1 <= getCalendar(i) && getCalendar(i) <= daysInMonth(currentYear, currentMonth)}).map((event) => event.title)}</p>
                     </div>
                 ))}
             </div>

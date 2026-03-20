@@ -1,7 +1,16 @@
-import CalendarView from "@/components/event/CalendarView"
+import EventList from "@/components/event/EventList";
+import { getRecentEvents } from "@/lib/db";
+import CalendarView from "@/components/event/CalendarView";
 
-export default function Home() {
+export default async function Home() {
+  const events = await getRecentEvents(10)
   return (
-    <CalendarView events={[]} ></CalendarView>
+    <>
+    { events && events.length > 0 ?
+        <EventList events={events} /> :
+        <p>イベントが見つかりませんでした</p>
+    }
+    <CalendarView events={events} />
+    </>
   );
 }
