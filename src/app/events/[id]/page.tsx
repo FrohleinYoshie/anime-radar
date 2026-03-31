@@ -11,6 +11,15 @@ export async function generateStaticParams() {
     ))
 }
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+    const event = await getEventById(params.id)
+    return {
+        title: event?.title ?? "イベント詳細",
+        description: event?.description ?? undefined,
+    }
+}
+
+
 export default async function EventPage({params}: {params: {id: string}}) {
     const { id } = await params
     const events = await getEventById(id)

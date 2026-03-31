@@ -8,6 +8,14 @@ export async function generateStaticParams() {
     ))
 } 
 
+export async function generateMetadata({ params }: {params: {title: string}}) {
+    const decodedTitle = decodeURIComponent(params.title)
+    return {
+        title: decodedTitle,
+        description: `${decodedTitle}のイベント情報`
+    }
+}
+
 export default async function AnimePage({params}: {params: {title: string}}) {
     const { title } = await params
     const decodedTitle = decodeURIComponent(title)
