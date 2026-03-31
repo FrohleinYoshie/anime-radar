@@ -22,10 +22,16 @@ async function queryD1<T>(sql: string, params: (string | number | null)[]): Prom
     return data.result?.[0].results
 }
 
-export function getRecentEvents(limit: number) {
+export function getRecentEvents(limit?: number) {
+    if (limit) {
+        return queryD1<AnimeEvent>(
+            `SELECT * FROM anime_events ORDER BY published_at DESC LIMIT ?`,
+            [limit]
+        )
+    }
     return queryD1<AnimeEvent>(
-        `SELECT * FROM anime_events ORDER BY published_at DESC LIMIT ?`,
-        [limit]
+        `SELECT * FROM anime_events ORDER BY published_at DESC`,
+        []
     )
 }
 
