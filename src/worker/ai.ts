@@ -1,4 +1,5 @@
 import type { RssItemDto } from "./rss";
+import type { Env } from "./index";
 
 export interface AiResult {
     animeTitle: string;
@@ -9,7 +10,7 @@ export interface AiResult {
     isHot: number;
 }
 
-export async function analyzeWithAI(item: RssItemDto, env:any): Promise<AiResult | null> {
+export async function analyzeWithAI(item: RssItemDto, env: Env): Promise<AiResult | null> {
     const prompt: string = `
     以下の PR TIMES のプレスリリースを分析し、
     「アニメ関連イベント」であるかどうかを判定してください。
@@ -32,7 +33,7 @@ export async function analyzeWithAI(item: RssItemDto, env:any): Promise<AiResult
     `
     try {
         const response = await env.AI.run(
-            "@cf/meta/llama-3.1-8b-instruct",
+            "@cf/meta/llama-3.1-8b-instruct" as keyof AiModels,
             {
                 messages: [
                     {role: "system", content: prompt},
@@ -46,8 +47,8 @@ export async function analyzeWithAI(item: RssItemDto, env:any): Promise<AiResult
                     type: "json_object"
                 }
             }
-        )
-        return JSON.parse(response.response);
+        ) as AiTextGenerationOutput
+        return JSON.parse(response.response?? "");
     } catch (e) {
             console.error("AI Error", e);
             return null

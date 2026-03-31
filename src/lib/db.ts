@@ -5,6 +5,10 @@ async function queryD1<T>(sql: string, params: (string | number | null)[]): Prom
     const accountId = process.env.CLOUDFLARE_ACCOUNT_ID
     const apiToken = process.env.CLOUDFLARE_API_TOKEN
     const databaseId = process.env.CLOUDFLARE_D1_DATABASE_ID
+    if (!accountId || !apiToken || !databaseId) {
+        console.warn("[db] D1環境変数が未設定。空配列を返します")
+        return []
+    }
 
     const res = await fetch(
         `https://api.cloudflare.com/client/v4/accounts/${accountId}/d1/database/${databaseId}/query`,
@@ -17,9 +21,13 @@ async function queryD1<T>(sql: string, params: (string | number | null)[]): Prom
             body: JSON.stringify({ sql, params }),
         }
     )
+    if (!res.ok) {
+        console.error("[db] エラー", res.status, await res.text())
+        return []
+    }
 
     const data: { result: [{ results: T[] }] } = await res.json()
-    return data.result?.[0].results
+    return data.result?.[0]?.results ?? []
 }
 
 export function getRecentEvents(limit?: number) {
